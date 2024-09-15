@@ -36,12 +36,14 @@ const Collection = () => {
       );
     }
 
+    if (subCategory.length > 0) {
+      productsCopy = productsCopy.filter((item) =>
+        subCategory.includes(item.subCategory)
+      );
+    }
+
     serFilterProducts(productsCopy);
   };
-
-  useEffect(() => {
-    serFilterProducts(products);
-  }, []);
 
   useEffect(() => {
     applyFilter();
