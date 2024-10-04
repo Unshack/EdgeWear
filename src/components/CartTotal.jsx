@@ -3,7 +3,11 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "./Title";
 
 const CartTotal = () => {
-  const { currency, delivery_fee, getCartAmount } = useContext(ShopContext);
+  const { currency, getCartAmount } = useContext(ShopContext);
+  const cartAmount = getCartAmount();
+  const rawDeliveryFee = cartAmount * 0.17; // Calculate delivery fee as 17% of cart amount
+  const deliveryFee = Math.min(rawDeliveryFee, 300); // Cap delivery fee at $300
+  const totalAmount = cartAmount + deliveryFee;
 
   return (
     <div className="w-full">
@@ -15,22 +19,21 @@ const CartTotal = () => {
         <div className="flex justify-between">
           <p>Subtotal</p>
           <p>
-            {currency} {getCartAmount()}.00
+            {currency} {cartAmount.toFixed(2)}
           </p>
         </div>
         <hr />
         <div className="flex justify-between">
           <p>Shipping Fee</p>
           <p>
-            {currency} {delivery_fee}.00
+            {currency} {deliveryFee.toFixed(2)}
           </p>
         </div>
         <hr />
         <div className="flex justify-between">
           <b>Total</b>
           <b>
-            {currency}{" "}
-            {getCartAmount() === 0 ? 0 : getCartAmount() + delivery_fee}.00
+            {currency} {totalAmount.toFixed(2)}
           </b>
         </div>
       </div>
